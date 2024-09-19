@@ -15,15 +15,40 @@ pipeline {
             }
         }
 
-        stage('Set venv and Install Dependencies') {
+        // stage('Set venv and Install Dependencies') {
+        //     agent {label "vm2"}
+        //     steps {
+        //         sh 'python3.10 -m venv venv'
+        //         sh '. venv/bin/activate'
+        //         sh 'pip install -r requirements.txt'
+        //         echo "Dependencies installed!"
+        //     }
+        // }
+        stage("Setup Python Environment") {
             agent {label "vm2"}
             steps {
-                sh 'python3.10 -m venv venv'
-                sh '. venv/bin/activate'
-                sh 'pip install -r requirements.txt'
-                echo "Dependencies installed!"
+                sh """
+                    # Update package list
+                    sudo apt-get update
+                    
+                    # Install python3.10-venv
+                    sudo apt-get install -y python3.10-venv
+                    
+                    # Now create the virtual environment
+                    python3.10 -m venv venv
+                    
+                    # Activate the virtual environment
+                    . venv/bin/activate
+                    
+                    # Upgrade pip
+                    pip install --upgrade pip
+                    
+                    # Install dependencies (if you have a requirements.txt file)
+                    # pip install -r requirements.txt
+                """
             }
         }
+        
         stage("Unit Test") {
             agent {label "vm2"} 
             steps {
