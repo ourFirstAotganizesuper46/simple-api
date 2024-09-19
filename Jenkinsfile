@@ -16,9 +16,20 @@ pipeline {
         }
 
         stage("Clone simple-api"){
-            agent {label "vm3"} 
+            agent {label "vm2"} 
             steps {
                 git branch: "main", url: "${GIT_REPO}"
+            }
+        }
+
+        stage("Unit Test") {
+            agent {label "vm2"} 
+            steps {
+                sh '/usr/bin/pip3 install -r requirements.txt'
+                // sh "docker build -t ${IMAGE_NAME} ."
+                // sh "docker run --rm ${IMAGE_NAME} python3 -m unit_test -v"
+                sh 'python3 -m unit_test -v'
+                echo "Unit test done!"
             }
         }
 
