@@ -1,6 +1,5 @@
 services:
   web:
-    build:
-      context: app
+    image: ghcr.io/ourfirstaotganizesuper46/simple-api
     ports:
       - "5000:5000"
