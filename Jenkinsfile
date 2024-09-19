@@ -47,6 +47,7 @@ pipeline {
                 dir('./robot-test/'){
                     git branch: 'main', credentialsId: 'PAT_github', url: '${GIT_REPO_ROBOT}'
                 echo "Clone done!"
+                }
             }
         }
 
@@ -104,14 +105,13 @@ pipeline {
         stage("Pre Prod") {
             agent {label "vm3"} //vm3
             steps{
-                    echo "Clear VM3 system"
-                    sh "docker stop \$(docker ps -a -q) || true"
-                    sh "docker system prune -a -f"
+                echo "Clear VM3 system"
+                sh "docker stop \$(docker ps -a -q) || true"
+                sh "docker system prune -a -f"
 
 
-                    echo "Creating Container"
-                    sh "docker compose up -d"
-                }
+                echo "Creating Container"
+                sh "docker compose up -d"
             }
         }
     }
