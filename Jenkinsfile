@@ -15,27 +15,19 @@ pipeline {
             }
         }
 
-        stage('Check Python') {
+        stage('Set venv and Install Dependencies') {
             agent {label "vm2"}
             steps {
-                sh 'python3 --version'
-                sh 'which python3'
-                sh '/usr/bin/pip --version'
-                sh 'which pip'
-            }
-        }
-
-        stage("Install Dependencies") {
-            agent {label "vm2"} 
-            steps {
-                sh "python3 -m pip install -r requirements.txt"
+                sh 'python3 -m venv venv'
+                sh '. venv/bin/activate'
+                sh 'pip install -r requirements.txt'
                 echo "Dependencies installed!"
             }
         }
-
         stage("Unit Test") {
             agent {label "vm2"} 
             steps {
+                sh '. venv/bin/activate'
                 sh "python3 -m unit_test -v"
                 echo "Unit test done!"
             }
