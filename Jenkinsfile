@@ -16,23 +16,23 @@ pipeline {
         }
 
         stage("Clone simple-api"){
-            agent {label "vm2"} 
+            agent {label "vm3"} 
             steps {
                 git branch: "main", url: "${GIT_REPO}"
             }
         }
 
-        stage('Ensure pip is installed') {
-            agent {label "vm2"}
-            steps {
-                sh 'sudo dpkg --configure -a'
-                sh 'sudo apt-get update'
-                sh 'sudo apt-get install -y python3-pip'
-                sh 'env'
-                sh 'ls -la /usr/bin | grep python'
-                sh 'ls -la /usr/bin | grep pip'
-            }
-        }
+        // stage('Ensure pip is installed') {
+        //     agent {label "vm2"}
+        //     steps {
+        //         sh 'sudo dpkg --configure -a'
+        //         sh 'sudo apt-get update'
+        //         sh 'sudo apt-get install -y python3-pip'
+        //         sh 'env'
+        //         sh 'ls -la /usr/bin | grep python'
+        //         sh 'ls -la /usr/bin | grep pip'
+        //     }
+        // }
 
         // stage('Set venv and Install Dependencies') {
         //     agent {label "vm2"}
@@ -45,7 +45,7 @@ pipeline {
         // }
 
         stage("Unit Test") {
-            agent {label "vm2"} 
+            agent {label "vm3"} 
             steps {
                 sh '/usr/bin/pip3 install -r requirements.txt'
                 // sh "docker build -t ${IMAGE_NAME} ."
@@ -56,7 +56,7 @@ pipeline {
         }
 
         stage("Create Image/Container") {
-            agent {label "vm2"} 
+            agent {label "vm3"} 
             steps {
                 withCredentials(
                     [usernamePassword(
@@ -76,7 +76,7 @@ pipeline {
         }
 
         stage("Clone/Setup Robot"){
-            agent {label "vm2"} 
+            agent {label "vm3"} 
             steps{
                 dir('./robot-test/'){
                     git branch: 'main', credentialsId: 'PAT_github', url: '${GIT_REPO_ROBOT}'
@@ -86,14 +86,14 @@ pipeline {
         }
 
         stage("Run Robot") {
-            agent {label "vm2"} 
+            agent {label "vm3"} 
             steps{
                 sh "python3 -m robot test-calculate.robot"
             }
         }
 
         stage("Push Image"){
-            agent {label "vm2"} 
+            agent {label "vm3"} 
             steps{
                 withCredentials(
                     [usernamePassword(
@@ -113,7 +113,7 @@ pipeline {
         }
 
         stage("Compose Down"){
-            agent {label "vm2"} 
+            agent {label "vm3"} 
             steps{
                 sh "docker compose -f docker-compose.yml down"
                 sh "docker system prune -a -f" 
