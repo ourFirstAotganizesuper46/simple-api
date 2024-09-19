@@ -8,10 +8,18 @@ pipeline {
         IMAGE_NAME = 'ghcr.io/ourfirstaotganizesuper46/simple-api'
     }
     stages {
-        stage("clone simple-api"){
+        stage("Clone simple-api"){
             agent {label "vm2"} 
             steps {
                 git branch: "main", url: "${GIT_REPO}"
+            }
+        }
+
+        stage("Install Dependencies") {
+            agent {label "vm2"} 
+            steps {
+                sh "python3 -m pip install -r requirements.txt"
+                echo "Dependencies installed!"
             }
         }
 
