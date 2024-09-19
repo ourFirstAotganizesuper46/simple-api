@@ -66,7 +66,7 @@ pipeline {
                     )]
                 ){
                     sh "echo $PATH"
-                    sh "#!/bin/bash \n source /etc/profile && docker ps -a"
+                    sh "#!/bin/bash \n source /etc/profile && /usr/bin/docker ps -a"
                     sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
                     sh "docker build -t ${IMAGE_NAME} ."
                     sh "docker compose -f docker-compose.yml up -d" 
