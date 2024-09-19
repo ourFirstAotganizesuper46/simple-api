@@ -36,7 +36,7 @@ pipeline {
         stage('Install Docker') {
             agent {label "vm2"} 
             steps {
-                sh 'docker --version'
+                sh 'docker version'
             }
         }
 
