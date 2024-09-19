@@ -18,6 +18,7 @@ pipeline {
         stage('Set venv and Install Dependencies') {
             agent {label "vm2"}
             steps {
+                sh 'env'
                 sh 'python3 -m venv venv'
                 sh '. venv/bin/activate'
                 sh 'pip install -r requirements.txt'
