@@ -8,7 +8,7 @@ pipeline {
         IMAGE_NAME = 'ghcr.io/ourfirstaotganizesuper46/simple-api'
     }
     stages {
-        
+
         stage('Clean Workspace') {
             steps {
                 cleanWs()
@@ -25,7 +25,9 @@ pipeline {
         stage('Ensure pip is installed') {
             agent {label "vm2"}
             steps {
-                sh 'sudo apt-get update && sudo apt-get install -y python3-pip'
+                sh 'sudo dpkg --configure -a'
+                sh 'sudo apt-get update'
+                sh 'sudo apt-get install -y python3-pip'
                 sh 'env'
                 sh 'ls -la /usr/bin | grep python'
                 sh 'ls -la /usr/bin | grep pip'
