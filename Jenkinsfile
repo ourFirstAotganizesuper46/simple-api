@@ -15,6 +15,16 @@ pipeline {
             }
         }
 
+        stage('Check Python') {
+            agent {label "vm2"}
+            steps {
+                sh 'python --version'
+                sh 'which python'
+                sh 'pip --version'
+                sh 'which pip'
+            }
+        }
+
         stage("Install Dependencies") {
             agent {label "vm2"} 
             steps {
