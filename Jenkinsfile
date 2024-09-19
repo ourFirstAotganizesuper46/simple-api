@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        stage("Unit Test") {
+        stage("Unit Test vm2") {
             agent {label "vm2"} 
             steps {
                 sh '/usr/bin/pip3 install -r requirements.txt'
