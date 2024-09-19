@@ -8,10 +8,27 @@ pipeline {
         IMAGE_NAME = 'ghcr.io/ourfirstaotganizesuper46/simple-api'
     }
     stages {
+        
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
         stage("Clone simple-api"){
             agent {label "vm2"} 
             steps {
                 git branch: "main", url: "${GIT_REPO}"
+            }
+        }
+
+        stage('Ensure pip is installed') {
+            agent {label "vm2"}
+            steps {
+                sh 'sudo apt-get update && sudo apt-get install -y python3-pip'
+                sh 'env'
+                sh 'ls -la /usr/bin | grep python'
+                sh 'ls -la /usr/bin | grep pip'
             }
         }
 
