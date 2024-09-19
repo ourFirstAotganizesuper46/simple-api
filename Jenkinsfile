@@ -65,6 +65,8 @@ pipeline {
                         usernameVariable: 'gitUser'
                     )]
                 ){
+                    sh "echo $PATH"
+                    sh "which docker"
                     sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
                     sh "docker build -t ${IMAGE_NAME} ."
                     sh "docker compose -f docker-compose.yml up -d" 
