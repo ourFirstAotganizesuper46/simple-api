@@ -33,6 +33,13 @@ pipeline {
             }
         }
 
+        stage('Install Docker') {
+            agent {label "vm2"} 
+            steps {
+                sh 'docker version'
+            }
+        }
+
         // stage('Ensure pip is installed') {
         //     agent {label "vm2"}
         //     steps {
@@ -66,13 +73,7 @@ pipeline {
         //     }
         // }
 
-        stage('Install Docker') {
-            steps {
-                sh '''
-                    docker --version
-                '''
-            }
-        }
+        
 
         stage("Create Image/Container") {
             agent {label "vm3"} 
