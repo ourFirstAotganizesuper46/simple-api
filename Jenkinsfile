@@ -18,8 +18,8 @@ pipeline {
         stage('Check Python') {
             agent {label "vm2"}
             steps {
-                sh 'python --version'
-                sh 'which python'
+                sh 'python3 --version'
+                sh 'which python3'
                 sh 'pip --version'
                 sh 'which pip'
             }
