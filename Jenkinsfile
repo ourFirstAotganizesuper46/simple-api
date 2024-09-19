@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh 'python3 --version'
                 sh 'which python3'
-                sh 'pip --version'
+                sh '/usr/bin/pip --version'
                 sh 'which pip'
             }
         }
