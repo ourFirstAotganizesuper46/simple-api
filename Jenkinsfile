@@ -15,45 +15,21 @@ pipeline {
             }
         }
 
-        stage('Set venv and Install Dependencies') {
-            agent {label "vm2"}
-            steps {
-                sh 'virtualenv venv'
-                sh '. venv/bin/activate'
-                sh '/usr/bin/pip3 install -r requirements.txt'
-                echo "Dependencies installed!"
-            }
-        }
-        // stage("Setup Python Environment") {
+        // stage('Set venv and Install Dependencies') {
         //     agent {label "vm2"}
         //     steps {
-        //         sh """
-        //             # Update package list
-        //             sudo apt-get update
-                    
-        //             # Install python3.10-venv
-        //             sudo apt-get install -y python3.10-venv
-                    
-        //             # Now create the virtual environment
-        //             python3.10 -m venv venv
-                    
-        //             # Activate the virtual environment
-        //             . venv/bin/activate
-                    
-        //             # Upgrade pip
-        //             pip install --upgrade pip
-                    
-        //             # Install dependencies (if you have a requirements.txt file)
-        //             # pip install -r requirements.txt
-        //         """
+        //         sh 'virtualenv venv'
+        //         // sh '. venv/bin/activate'
+        //         sh '/usr/bin/pip3 install -r requirements.txt'
+        //         echo "Dependencies installed!"
         //     }
         // }
-        
+
         stage("Unit Test") {
             agent {label "vm2"} 
             steps {
-                sh '. venv/bin/activate'
-                sh "python3 -m unit_test -v"
+                sh "docker build -t ${IMAGE_NAME} ."
+                sh "docker run --rm ${IMAGE_NAME} python3 -m unit_test -v"
                 echo "Unit test done!"
             }
         }
