@@ -28,7 +28,8 @@ pipeline {
             steps {
                 sshagent(credentials: ['key_vm2']) {
                     sh '''
-                        ssh root@vm2.f4-ir.com "commands to run on remote host"
+                        ssh root@vm2.f4-ir.com
+                        docker version
                     '''
                 }
             }
