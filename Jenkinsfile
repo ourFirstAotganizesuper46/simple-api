@@ -6,7 +6,7 @@ pipeline {
         GIT_REPO = 'https://github.com/ourFirstAotganizesuper46/simple-api'
         GIT_REPO_ROBOT = 'https://github.com/ourFirstAotganizesuper46/simple-api-robot'
         IMAGE_NAME = 'ghcr.io/ourfirstaotganizesuper46/simple-api'
-        REMOTE_HOST = 'vm2.f4ir.com'
+        REMOTE_HOST = 'vm2.f4-ir.com'
         REMOTE_USER = 'root'
     }
     stages {
