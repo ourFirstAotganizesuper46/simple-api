@@ -30,7 +30,7 @@ def plus(num1, num2):
 @app.route('/calculate/<num1>/<num2>', methods=['GET'])
 def calculate(num1, num2):
     try:
-        num1 = int(num1)
+        num1 = float(num1)
         num2 = int(num2)
 
         results = {
