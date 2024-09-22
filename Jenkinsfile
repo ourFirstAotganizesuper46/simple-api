@@ -37,7 +37,7 @@ pipeline {
                 ){
                     sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
                     sh "docker build -t ${IMAGE_NAME} ./app"
-                    sh "docker compose -f docker-compose.yml up -d" 
+                    sh "docker compose -f compose.yml up -d" 
                     sh "docker ps"
                 }
             }
@@ -71,11 +71,8 @@ pipeline {
                     )]
                 ){
                     sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
-                    sh "docker tag ${IMAGE_NAME} ${IMAGE_NAME}:${env.BUILD_NUMBER}"
                     sh "docker push ${IMAGE_NAME}"
-                    sh "docker push ${IMAGE_NAME}:${env.BUILD_NUMBER}"
                     sh "docker rmi -f ${IMAGE_NAME}"
-                    sh "docker rmi -f ${IMAGE_NAME}:${env.BUILD_NUMBER}"
                 }
             }  
         }
@@ -83,7 +80,7 @@ pipeline {
         stage("Compose Down"){
             agent {label "vm2"} 
             steps{
-                sh "docker compose -f docker-compose.yml down"
+                sh "docker compose -f compose.yml down"
                 sh "docker system prune -a -f" 
             }  
         }
@@ -113,7 +110,7 @@ pipeline {
 
 
                 echo "Creating Container"
-                sh "docker compose up -d"
+                sh "docker run -d -p 5000:5000 --name simple-api ${IMAGE_NAME}"
             }
         }
     }
