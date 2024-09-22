@@ -11,6 +11,21 @@ def index():
 def hello(name):
     return "Hello, " + str(name)
 
+@app.route('/getcode', methods=['GET'])
+def getcode():
+    return jsonify({ 'code' : 200, 'message' : 'success' })
+
+@app.route('/plus/<num1>/<num2>', methods=['GET'])
+def plus(num1, num2):
+    try:
+        num1 = float(num1)
+        num2 = float(num2)
+        results = {'result':num1 + num2}
+    except:
+        results = { 'error_msg' : 'inputs must be numbers' }
+
+    return jsonify(results)
+
 
 @app.route('/calculate/<num1>/<num2>', methods=['GET'])
 def calculate(num1, num2):

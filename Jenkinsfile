@@ -106,11 +106,10 @@ pipeline {
             steps{
                 echo "Clear VM3 system"
                 sh "docker stop \$(docker ps -a -q) || true"
-                sh "docker system prune -a -f"
-
 
                 echo "Creating Container"
                 sh "docker run -d -p 5000:5000 --name simple-api ${IMAGE_NAME}"
+                sh "docker system prune -a -f"
             }
         }
     }
