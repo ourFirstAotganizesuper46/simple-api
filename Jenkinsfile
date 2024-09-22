@@ -6,6 +6,8 @@ pipeline {
         GIT_REPO = 'https://github.com/ourFirstAotganizesuper46/simple-api'
         GIT_REPO_ROBOT = 'https://github.com/ourFirstAotganizesuper46/simple-api-robot'
         IMAGE_NAME = 'ghcr.io/ourfirstaotganizesuper46/simple-api'
+        REMOTE_HOST = 'vm2.f4ir.com'
+        REMOTE_USER = 'root'
     }
     stages {
 
@@ -27,10 +29,7 @@ pipeline {
         stage('Test ssh') {
             steps {
                 sshagent(credentials: ['key_vm2']) {
-                    sh '''
-                        ssh root@vm2.f4-ir.com "echo 'Hello from vm2'"
-                        docker version
-                    '''
+                    sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'docker --version'"
                 }
             }
         }
