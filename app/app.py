@@ -20,7 +20,7 @@ def plus(num1, num2):
     try:
         num1 = int(num1)
         num2 = int(num2)
-        results = num1 + num2
+        results = { 'result' : num1 + num2 }
     except:
         results = { 'error_msg' : 'inputs must be numbers' }
 
