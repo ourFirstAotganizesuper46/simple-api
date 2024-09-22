@@ -28,7 +28,7 @@ pipeline {
             steps {
                 sshagent(credentials: ['key_vm2']) {
                     sh '''
-                        ssh root@vm2.f4-ir.com
+                        ssh root@vm2.f4-ir.com "echo 'Hello from vm2'"
                         docker version
                     '''
                 }
