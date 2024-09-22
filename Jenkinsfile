@@ -36,7 +36,7 @@ pipeline {
                     )]
                 ){
                     sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
-                    sh "docker build -t ${IMAGE_NAME} ."
+                    sh "docker build -t ${IMAGE_NAME} ./app"
                     sh "docker compose -f docker-compose.yml up -d" 
                     sh "docker ps"
                 }
