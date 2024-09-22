@@ -11,11 +11,11 @@ pipeline {
     }
     stages {
 
-        stage('Clean Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
+        // stage('Clean Workspace') {
+        //     steps {
+        //         cleanWs()
+        //     }
+        // }
 
         // stage("Clone simple-api"){
         //     agent {label "vm2"} 
@@ -29,34 +29,29 @@ pipeline {
         stage('Test ssh') {
             steps {
                 sshagent(credentials: ['key_vm2']) {
-                    script {
-                        def dockerVersion = sh(
-                            script: "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'docker --version'",
-                            returnStdout: true
-                        ).trim()
-                        echo "Docker version on remote host: ${dockerVersion}"
-                    }
+                    sh 'ssh tt -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} ls'
+                      
                 }
             }
         }
 
-        stage("Unit Test vm2") {
-            agent {label "vm2"} 
-            steps {
-                sh '/usr/bin/pip3 install -r requirements.txt'
-                // sh "docker build -t ${IMAGE_NAME} ."
-                // sh "docker run --rm ${IMAGE_NAME} python3 -m unit_test -v"
-                sh 'python3 -m unit_test -v'
-                echo "Unit test done!"
-            }
-        }
+        // stage("Unit Test vm2") {
+        //     agent {label "vm2"} 
+        //     steps {
+        //         sh '/usr/bin/pip3 install -r requirements.txt'
+        //         // sh "docker build -t ${IMAGE_NAME} ."
+        //         // sh "docker run --rm ${IMAGE_NAME} python3 -m unit_test -v"
+        //         sh 'python3 -m unit_test -v'
+        //         echo "Unit test done!"
+        //     }
+        // }
 
-        stage('Install Docker') {
-            agent {label "vm2"} 
-            steps {
-                sh 'docker version'
-            }
-        }
+        // stage('Install Docker') {
+        //     agent {label "vm2"} 
+        //     steps {
+        //         sh 'docker version'
+        //     }
+        // }
 
         // stage('Ensure pip is installed') {
         //     agent {label "vm2"}
@@ -93,98 +88,98 @@ pipeline {
 
         
 
-        stage("Create Image/Container") {
-            agent {label "vm3"} 
-            steps {
-                withCredentials(
-                    [usernamePassword(
-                        credentialsId: 'PAT_github',
-                        passwordVariable: 'gitPassword',
-                        usernameVariable: 'gitUser'
-                    )]
-                ){
-                    sh "echo $PATH"
-                    sh "#!/bin/bash \n source /etc/profile && /usr/bin/docker ps -a"
-                    sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
-                    sh "docker build -t ${IMAGE_NAME} ."
-                    sh "docker compose -f docker-compose.yml up -d" 
-                    sh "docker ps"
-                }
-            }
-        }
+        // stage("Create Image/Container") {
+        //     agent {label "vm3"} 
+        //     steps {
+        //         withCredentials(
+        //             [usernamePassword(
+        //                 credentialsId: 'PAT_github',
+        //                 passwordVariable: 'gitPassword',
+        //                 usernameVariable: 'gitUser'
+        //             )]
+        //         ){
+        //             sh "echo $PATH"
+        //             sh "#!/bin/bash \n source /etc/profile && /usr/bin/docker ps -a"
+        //             sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
+        //             sh "docker build -t ${IMAGE_NAME} ."
+        //             sh "docker compose -f docker-compose.yml up -d" 
+        //             sh "docker ps"
+        //         }
+        //     }
+        // }
 
-        stage("Clone/Setup Robot"){
-            agent {label "vm3"} 
-            steps{
-                dir('./robot-test/'){
-                    git branch: 'main', credentialsId: 'PAT_github', url: '${GIT_REPO_ROBOT}'
-                echo "Clone done!"
-                }
-            }
-        }
+        // stage("Clone/Setup Robot"){
+        //     agent {label "vm3"} 
+        //     steps{
+        //         dir('./robot-test/'){
+        //             git branch: 'main', credentialsId: 'PAT_github', url: '${GIT_REPO_ROBOT}'
+        //         echo "Clone done!"
+        //         }
+        //     }
+        // }
 
-        stage("Run Robot") {
-            agent {label "vm3"} 
-            steps{
-                sh "python3 -m robot test-calculate.robot"
-            }
-        }
+        // stage("Run Robot") {
+        //     agent {label "vm3"} 
+        //     steps{
+        //         sh "python3 -m robot test-calculate.robot"
+        //     }
+        // }
 
-        stage("Push Image"){
-            agent {label "vm3"} 
-            steps{
-                withCredentials(
-                    [usernamePassword(
-                        credentialsId: 'PAT_github',
-                        passwordVariable: 'gitPassword',
-                        usernameVariable: 'gitUser'
-                    )]
-                ){
-                    sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
-                    sh "docker tag ${IMAGE_NAME} ${IMAGE_NAME}:${env.BUILD_NUMBER}"
-                    sh "docker push ${IMAGE_NAME}"
-                    sh "docker push ${IMAGE_NAME}:${env.BUILD_NUMBER}"
-                    sh "docker rmi -f ${IMAGE_NAME}"
-                    sh "docker rmi -f ${IMAGE_NAME}:${env.BUILD_NUMBER}"
-                }
-            }  
-        }
+        // stage("Push Image"){
+        //     agent {label "vm3"} 
+        //     steps{
+        //         withCredentials(
+        //             [usernamePassword(
+        //                 credentialsId: 'PAT_github',
+        //                 passwordVariable: 'gitPassword',
+        //                 usernameVariable: 'gitUser'
+        //             )]
+        //         ){
+        //             sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
+        //             sh "docker tag ${IMAGE_NAME} ${IMAGE_NAME}:${env.BUILD_NUMBER}"
+        //             sh "docker push ${IMAGE_NAME}"
+        //             sh "docker push ${IMAGE_NAME}:${env.BUILD_NUMBER}"
+        //             sh "docker rmi -f ${IMAGE_NAME}"
+        //             sh "docker rmi -f ${IMAGE_NAME}:${env.BUILD_NUMBER}"
+        //         }
+        //     }  
+        // }
 
-        stage("Compose Down"){
-            agent {label "vm3"} 
-            steps{
-                sh "docker compose -f docker-compose.yml down"
-                sh "docker system prune -a -f" 
-            }  
-        }
+        // stage("Compose Down"){
+        //     agent {label "vm3"} 
+        //     steps{
+        //         sh "docker compose -f docker-compose.yml down"
+        //         sh "docker system prune -a -f" 
+        //     }  
+        // }
 
-        stage("Pull IMGAGE") {
-            agent {label "vm3"} //vm3
-            steps{
-                withCredentials(
-                    [usernamePassword(
-                        credentialsId: 'PAT_github',
-                        passwordVariable: 'gitPassword',
-                        usernameVariable: 'gitUser'
-                    )]
-                ){
-                    sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
-                    sh "docker pull ${IMAGE_NAME}"
-                }
-            }
-        }
+        // stage("Pull IMGAGE") {
+        //     agent {label "vm3"} //vm3
+        //     steps{
+        //         withCredentials(
+        //             [usernamePassword(
+        //                 credentialsId: 'PAT_github',
+        //                 passwordVariable: 'gitPassword',
+        //                 usernameVariable: 'gitUser'
+        //             )]
+        //         ){
+        //             sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
+        //             sh "docker pull ${IMAGE_NAME}"
+        //         }
+        //     }
+        // }
 
-        stage("Pre Prod") {
-            agent {label "vm3"} //vm3
-            steps{
-                echo "Clear VM3 system"
-                sh "docker stop \$(docker ps -a -q) || true"
-                sh "docker system prune -a -f"
+        // stage("Pre Prod") {
+        //     agent {label "vm3"} //vm3
+        //     steps{
+        //         echo "Clear VM3 system"
+        //         sh "docker stop \$(docker ps -a -q) || true"
+        //         sh "docker system prune -a -f"
 
 
-                echo "Creating Container"
-                sh "docker compose up -d"
-            }
-        }
+        //         echo "Creating Container"
+        //         sh "docker compose up -d"
+        //     }
+        // }
     }
 }
