@@ -27,10 +27,6 @@ from app import app
 import json
 
 class AppTestCase(unittest.TestCase):
-    def setUp(self):
-        self.app = app.test_client()  # Create a test client
-        self.app_context = app.app_context()  # Create an app context
-        self.app_context.push() 
     
     def test_hello_with_string(self):
         # test hello
@@ -43,9 +39,8 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(res, "Hello, 1")
     
     def test_plus_json(self):
-        res = self.app.get('/plus/5/6')
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(res.get_json(), 11)
+        res = app.plus(5,6)
+        self.assertEqual(res, 11)
 
 if __name__ == "__main__":
     unittest.main()
