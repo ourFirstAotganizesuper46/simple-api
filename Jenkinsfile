@@ -56,7 +56,7 @@ pipeline {
         stage("Run Robot") {
             agent {label "vm2"} 
             steps{
-                sh "python3 -m robot test-calculate.robot"
+                sh "python3 -m robot ./robot-test/test-calculate.robot"
             }
         }
 
