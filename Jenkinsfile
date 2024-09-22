@@ -47,7 +47,7 @@ pipeline {
             agent {label "vm2"} 
             steps{
                 dir('./robot-test/'){
-                    git branch: 'main', credentialsId: 'PAT_github', url: '${GIT_REPO_ROBOT}'
+                    git branch: "main", url: "${GIT_REPO}"
                     echo "Clone done!"
                 }
             }
