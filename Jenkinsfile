@@ -15,10 +15,22 @@ pipeline {
             }
         }
 
-        stage("Clone simple-api"){
-            agent {label "vm2"} 
+        // stage("Clone simple-api"){
+        //     agent {label "vm2"} 
+        //     steps {
+        //         git branch: "main", url: "${GIT_REPO}"
+        //     }
+        // }
+
+        
+
+        stage('Test ssh') {
             steps {
-                git branch: "main", url: "${GIT_REPO}"
+                sshagent(credentials: ['key_vm2']) {
+                    sh '''
+                        ssh root@vm2.f4-ir.com "commands to run on remote host"
+                    '''
+                }
             }
         }
 
