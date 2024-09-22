@@ -1,6 +1,6 @@
 import unittest
 
-from app.app import app
+from app import app
 import json
 
 class AppTestCase(unittest.TestCase):
@@ -15,7 +15,7 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(res, "Hello, 1")
     
     def test_plus_json(self):
-        res = app.plus(5,6)
+        res = self.app.plus(5,6)
         self.assertEqual(json.loads(res.get_data()), {'result':11})
 
 if __name__ == "__main__":
