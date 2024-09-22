@@ -18,8 +18,8 @@ def getcode():
 @app.route('/plus/<num1>/<num2>', methods=['GET'])
 def plus(num1, num2):
     try:
-        num1 = float(num1)
-        num2 = float(num2)
+        num1 = int(num1)
+        num2 = int(num2)
         results = {'result':num1 + num2}
     except:
         results = { 'error_msg' : 'inputs must be numbers' }
@@ -30,7 +30,7 @@ def plus(num1, num2):
 @app.route('/calculate/<num1>/<num2>', methods=['GET'])
 def calculate(num1, num2):
     try:
-        num1 = eval(num1)
+        num1 = int(num1)
         num2 = int(num2)
 
         results = {
