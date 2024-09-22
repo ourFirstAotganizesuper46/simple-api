@@ -15,11 +15,9 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(res, "Hello, 1")
     
     def test_plus_json(self):
-        with app.app_context():
-            # test plus with JSON response
-            res = app.plus(5, 6)
-            json_res = json.loads(res)
-            self.assertEqual(json_res["result"], 11)
+        with app.test_request_context('/plus/5/6'):
+            res = app.plus(5,6)
+            self.assertEqual(json.loads(res.get_data()), {'result':11})
 
 if __name__ == "__main__":
     unittest.main()
