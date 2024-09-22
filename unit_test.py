@@ -16,7 +16,7 @@ class AppTestCase(unittest.TestCase):
     def test_plus(self):
         # test plus
         res = app.plus(5, 6)
-        self.assertEqual(res, 11)
+        self.assertEqual(res.result, 11)
 
 if __name__ == "__main__":
     unittest.main()
