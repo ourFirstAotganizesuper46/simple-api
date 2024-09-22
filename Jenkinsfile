@@ -29,7 +29,13 @@ pipeline {
         stage('Test ssh') {
             steps {
                 sshagent(credentials: ['key_vm2']) {
-                    sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'docker --version'"
+                    script {
+                        def dockerVersion = sh(
+                            script: "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'docker --version'",
+                            returnStdout: true
+                        ).trim()
+                        echo "Docker version on remote host: ${dockerVersion}"
+                    }
                 }
             }
         }
