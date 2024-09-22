@@ -37,7 +37,7 @@ pipeline {
                 ){
                     sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
                     sh "docker build -t ${IMAGE_NAME} ./app"
-                    sh "docker compose -f compose.yml up -d" 
+                    sh "docker compose -f compose.yaml up -d" 
                     sh "docker ps"
                 }
             }
@@ -80,7 +80,7 @@ pipeline {
         stage("Compose Down"){
             agent {label "vm2"} 
             steps{
-                sh "docker compose -f compose.yml down"
+                sh "docker compose -f compose.yaml down"
                 sh "docker system prune -a -f" 
             }  
         }
