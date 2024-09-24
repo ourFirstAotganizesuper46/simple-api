@@ -34,7 +34,6 @@ pipeline {
                     sh "docker compose -f compose.yaml up -d" 
                     sh "docker ps"
                 }
-            }
         }
 
         stage("Clone/Setup Robot"){
