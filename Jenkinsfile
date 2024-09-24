@@ -14,6 +14,7 @@ pipeline {
             agent {label "vm2"} 
             steps {
                 sh 'git config --global --unset https.proxy'
+                sh 'git config --global --unset http.proxy'
             }
         }
 
