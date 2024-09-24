@@ -98,6 +98,7 @@ pipeline {
                     )]
                 ){
                     sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
+                    sh 'git config --unset https.proxy'
                     sh "docker pull ${IMAGE_NAME}"
                 }
             }
