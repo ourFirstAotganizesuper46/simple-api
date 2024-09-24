@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    options {
+        skipDefaultCheckout()
+    }
     // Git repository configuration
     environment {
         GIT_REPO = 'https://github.com/ourFirstAotganizesuper46/simple-api'
