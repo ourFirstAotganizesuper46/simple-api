@@ -33,7 +33,7 @@ pipeline {
                     sh "docker build -t ${IMAGE_NAME} ./app"
                     sh "docker compose -f compose.yaml up -d" 
                     sh "docker ps"
-                }
+            }
         }
 
         stage("Clone/Setup Robot"){
