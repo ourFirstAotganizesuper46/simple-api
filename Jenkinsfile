@@ -13,8 +13,17 @@ pipeline {
         stage("Setting github config"){
             agent {label "vm2"} 
             steps {
-                sh 'git config --global --unset https.proxy'
-                sh 'git config --global --unset http.proxy'
+                sh '''
+                    git config --unset http.proxy
+                    git config --global --unset http.proxy
+                    git config --system --unset http.proxy
+
+                    git config --unset https.proxy
+                    git config --global --unset https.proxy
+                    git config --system --unset https.proxy
+
+                    # double-check with:
+                    git config -l --show-origin | grep -i proxy'''
             }
         }
 
