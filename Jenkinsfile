@@ -86,6 +86,14 @@ pipeline {
             }  
         }
 
+        stage("Clear VM3 workspace") {
+            agent {label "vm3"}
+            steps{
+                sh "cleanWs()"
+                echo "Clear VM3 workspace"
+            }
+        }
+
         stage("Pull IMGAGE") {
             agent {label "vm3"} //vm3
             steps{
