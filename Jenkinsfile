@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    options {
+        skipDefaultCheckout()
+    }
     // Git repository configuration
     environment {
         GIT_REPO = 'https://github.com/ourFirstAotganizesuper46/simple-api'
@@ -35,7 +37,6 @@ pipeline {
                         usernameVariable: 'gitUser'
                     )]
                 ){
-                    sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
                     sh "docker build -t ${IMAGE_NAME} ./app"
                     sh "docker compose -f compose.yaml up -d" 
                     sh "docker ps"
