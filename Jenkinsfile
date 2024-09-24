@@ -46,10 +46,11 @@ pipeline {
         stage("Clone/Setup Robot"){
             agent {label "vm2"} 
             steps{
-                git branch: "main", url: "${GIT_REPO_ROBOT}"
-                sh 'ls -la'
-                echo "Clone done!"
-                
+                dir('./robot-test/'){
+                    git branch: "main", url: "${GIT_REPO_ROBOT}"
+                    sh 'ls -la'
+                    echo "Clone done!"
+                }
             }
         }
 
