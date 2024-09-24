@@ -88,33 +88,17 @@ pipeline {
         }
 
 
-        // stage("Pull IMGAGE") {
-        //     agent {label "vm3"} //vm3
-        //     steps{
-        //         withCredentials(
-        //             [usernamePassword(
-        //                 credentialsId: 'PAT_github',
-        //                 passwordVariable: 'gitPassword',
-        //                 usernameVariable: 'gitUser'
-        //             )]
-        //         ){
-        //             sh """
-        //                 echo ${gitPassword} | docker login --username ${gitUser} --password-stdin ghcr.io
-        //             """
-        //             sh "docker pull ${IMAGE_NAME}"
-        //         }
-        //     }
-        // }
-
-        stage("Pull IMAGE") {
-            agent { label "vm3" } // Assign the agent
-            steps {
-                withCredentials([string(credentialsId: 'PAT_github', variable: 'PAT_TOKEN')]) {
-                    // Login to Docker using the PAT
-                    sh """
-                        echo ${PAT_TOKEN} | docker login --username ${gitUser} --password-stdin ghcr.io
-                    """
-                    // Pull the Docker image
+        stage("Pull IMGAGE") {
+            agent {label "vm3"} //vm3
+            steps{
+                withCredentials(
+                    [usernamePassword(
+                        credentialsId: 'PAT_github',
+                        passwordVariable: 'gitPassword',
+                        usernameVariable: 'gitUser'
+                    )]
+                ){
+                    sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
                     sh "docker pull ${IMAGE_NAME}"
                 }
             }
