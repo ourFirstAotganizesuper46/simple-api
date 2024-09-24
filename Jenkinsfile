@@ -20,7 +20,6 @@ pipeline {
         stage("Clone simple-api"){
             agent {label "vm2"} 
             steps {
-                
                 git branch: "main", url: "${GIT_REPO}"
             }
         }
