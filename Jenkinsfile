@@ -9,6 +9,13 @@ pipeline {
     }
     stages {
 
+        stage("Clear VM2 workspace") {
+            agent {label "vm2"}
+            steps{
+                sh "cleanWs()"
+                echo "Clear VM2 workspace"
+            }
+        }
 
         stage("Clone simple-api"){
             agent {label "vm2"} 
@@ -48,8 +55,6 @@ pipeline {
         stage("Clone/Setup Robot"){
             agent {label "vm2"} 
             steps{
-                sh 'mkdir robot-test'
-                sh 'cd robot-test'
                 git branch: "main", url: "${GIT_REPO_ROBOT}"
                 echo "Clone done!"
                 
