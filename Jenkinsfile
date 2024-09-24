@@ -108,7 +108,8 @@ pipeline {
             agent {label "vm3"} //vm3
             steps{
                 echo "Clear VM3 system"
-                sh "docker stop \$(docker ps -a -q) || true"
+                sh "docker rm -f \$(docker ps -a -q) || true"
+                
 
                 echo "Creating Container"
                 sh "docker run -d -p 5000:5000 --name simple-api ${IMAGE_NAME}"
