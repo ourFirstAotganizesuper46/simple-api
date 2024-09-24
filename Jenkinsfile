@@ -9,14 +9,6 @@ pipeline {
     }
     stages {
 
-        stage("Clear VM2 workspace") {
-            agent {label "vm2"}
-            steps{
-                sh "cleanWs()"
-                echo "Clear VM2 workspace"
-            }
-        }
-
         stage("Clone simple-api"){
             agent {label "vm2"} 
             steps {
