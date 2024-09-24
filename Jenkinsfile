@@ -47,7 +47,7 @@ pipeline {
             agent {label "vm2"} 
             steps{
                 git branch: "main", url: "${GIT_REPO_ROBOT}"
-                sh 'pwd'
+                sh 'ls -la'
                 echo "Clone done!"
                 
             }
