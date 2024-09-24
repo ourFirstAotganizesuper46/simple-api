@@ -12,6 +12,7 @@ pipeline {
         stage("Clone simple-api"){
             agent {label "vm2"} 
             steps {
+                sh 'git config --global --unset https.proxy'
                 git branch: "main", url: "${GIT_REPO}"
             }
         }
