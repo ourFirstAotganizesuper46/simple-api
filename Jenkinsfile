@@ -37,7 +37,6 @@ pipeline {
                         usernameVariable: 'gitUser'
                     )]
                 ){
-                    sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
                     sh "docker build -t ${IMAGE_NAME} ./app"
                     sh "docker compose -f compose.yaml up -d" 
                     sh "docker ps"
@@ -100,7 +99,6 @@ pipeline {
                     )]
                 ){
                     sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
-                    sh 'git config --unset https.proxy'
                     sh "docker pull ${IMAGE_NAME}"
                 }
             }
