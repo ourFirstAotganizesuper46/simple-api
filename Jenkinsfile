@@ -98,8 +98,9 @@ pipeline {
                         usernameVariable: 'gitUser'
                     )]
                 ){
-                    // sh "docker login -u ${gitUser} -p ${gitPassword} ghcr.io"
-                    sh "docker login --username ${gitUser} --password-stdin ${PAT_github}"
+                    sh """
+                        echo ${gitPassword} | docker login --username ${gitUser} --password-stdin ghcr.io
+                    """
                     sh "docker pull ${IMAGE_NAME}"
                 }
             }
