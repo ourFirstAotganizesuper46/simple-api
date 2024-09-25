@@ -13,7 +13,7 @@ def hello(name):
 
 @app.route('/getcode', methods=['GET'])
 def getcode():
-    return jsonify({ 'code' : 200, 'message' : '`whatever' })
+    return jsonify({ 'code' : 200, 'message' : '`whatever 333' })
 
 @app.route('/plus/<num1>/<num2>', methods=['GET'])
 def plus(num1, num2):
