@@ -30,17 +30,9 @@ pipeline {
         stage("Create Image/Container") {
             agent {label "vm2"} 
             steps {
-                withCredentials(
-                    [usernamePassword(
-                        credentialsId: 'PAT_github',
-                        passwordVariable: 'gitPassword',
-                        usernameVariable: 'gitUser'
-                    )]
-                ){
-                    sh "docker build -t ${IMAGE_NAME} ./app"
-                    sh "docker compose -f compose.yaml up -d" 
-                    sh "docker ps"
-                }
+                sh "docker build -t ${IMAGE_NAME} ./app"
+                sh "docker compose -f compose.yaml up -d" 
+                sh "docker ps"
             }
         }
 
@@ -49,7 +41,6 @@ pipeline {
             steps{
                 dir('./robot-test/'){
                     git branch: "main", url: "${GIT_REPO_ROBOT}"
-                    sh 'ls -la'
                     echo "Clone done!"
                 }
             }
