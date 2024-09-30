@@ -22,7 +22,7 @@ pipeline {
             agent {label "vm2"} 
             steps {
                 sh '/usr/bin/pip3 install -r requirements.txt'
-                sh 'python3 -m unit_test -v'
+                sh 'python3 -m unit_test -v > unit_test_result.txt'
                 echo "Unit test done!"
             }
         }
@@ -49,7 +49,7 @@ pipeline {
         stage("Run Robot") {
             agent {label "vm2"} 
             steps{
-                sh "python3 -m robot ./robot-test/test-calculate.robot"
+                sh "python3 -m robot ./robot-test/test-calculate.robot > robot_result.txt"
             }
         }
 
