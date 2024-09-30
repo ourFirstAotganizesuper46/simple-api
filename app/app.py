@@ -18,11 +18,11 @@ def getcode():
 @app.route('/is_prime/<int:number>', methods=['GET'])
 def is_prime(number):
     if number <= 1:
-        return False
+        return {'result' : False}
     for i in range(2, int(number ** 0.5) + 1):
         if number % i == 0:
-            return False
-    return True
+            return {'result' : False}
+    return {'result' : True}
 
 @app.route('/plus/<num1>/<num2>', methods=['GET'])
 def plus(num1, num2):

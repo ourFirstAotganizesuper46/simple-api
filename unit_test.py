@@ -20,15 +20,15 @@ class AppTestCase(unittest.TestCase):
 
     def test_true_when_x_is_17(self):
         res = app.is_prime(17)
-        self.assertEqual(res, True)
+        self.assertEqual(res['result'], True)
     
     def test_false_when_x_is_36(self):
         res = app.is_prime(36)
-        self.assertEqual(res, False)
+        self.assertEqual(res['result'], False)
 
     def test_true_when_x_is_13219(self):
         res = app.is_prime(13219)
-        self.assertEqual(res, True)
+        self.assertEqual(res['result'], True)
     
 
 if __name__ == "__main__":
