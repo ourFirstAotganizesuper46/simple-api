@@ -20,11 +20,11 @@ def getcode():
 @app.route('/is_prime/<int:number>', methods=['GET'])
 def is_prime(number):
     if number <= 1:
-        return {'result' : False}
+        return {'result': False}
     for i in range(2, int(number ** 0.5) + 1):
         if number % i == 0:
-            return {'result' : False}
-    return {'result' : True}
+            return {'result': False}
+    return {'result': True}
 
 @app.route('/is_fibonacci/<int:number>', methods=['GET'])
 def is_fibonacci(number):
