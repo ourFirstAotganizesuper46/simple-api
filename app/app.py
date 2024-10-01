@@ -26,6 +26,7 @@ def is_prime(number):
             return {'result': False}
     return {'result': True}
 
+
 @app.route('/is_fibonacci/<int:number>', methods=['GET'])
 def is_fibonacci(number):
     x, y = 0, 1
