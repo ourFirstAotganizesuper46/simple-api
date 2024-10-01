@@ -7,6 +7,8 @@ app = Flask(__name__)
 def index():
     return "Index!"
 
+
+
 @app.route('/hello/<name>', methods=['GET'])
 def hello(name):
     return "Hello, " + str(name)
@@ -23,6 +25,14 @@ def is_prime(number):
         if number % i == 0:
             return {'result' : False}
     return {'result' : True}
+
+@app.route('/is_fibonacci/<int:number>', methods=['GET'])
+def is_fibonacci(number):
+    x, y = 0, 1
+    while y < number:
+        x, y = y, x + y
+    result = (y == number)
+    return {'result': result}
 
 @app.route('/plus/<num1>/<num2>', methods=['GET'])
 def plus(num1, num2):

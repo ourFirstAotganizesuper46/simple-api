@@ -30,6 +30,19 @@ class AppTestCase(unittest.TestCase):
         res = app.is_prime(13219)
         self.assertEqual(res['result'], True)
     
+    def test_true_when_x_is_3(self):
+        res = app.is_fibonacci(3)
+        self.assertEqual(res['result'], True)
+    
+    def test_false_when_x_is_4(self):
+        res = app.is_fibonacci(4)
+        self.assertEqual(res['result'], False)
+
+    def test_false_when_x_is_5(self):
+        res = app.is_fibonacci(5)
+        self.assertEqual(res['result'], True)
+
+
 
 if __name__ == "__main__":
     unittest.main()
