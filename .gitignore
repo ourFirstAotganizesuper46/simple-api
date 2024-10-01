@@ -2,3 +2,9 @@ env
 *.pyc
 
 .venv
+
+output.xml
+
+log.html
+
+report.html
