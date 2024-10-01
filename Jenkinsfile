@@ -22,7 +22,7 @@ pipeline {
             agent {label "vm2"} 
             steps {
                 sh '/usr/bin/pip3 install -r requirements.txt'
-                sh 'python3 -m unit_test -v > unit_test_result.txt'
+                sh 'python3 -m unit_test -v > unit_test_result.txt 2>&1'
                 echo "Unit test done!"
             }
         }
