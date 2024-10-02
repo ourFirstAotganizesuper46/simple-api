@@ -42,7 +42,17 @@ class AppTestCase(unittest.TestCase):
         res = app.is_fibonacci(5)
         self.assertEqual(res['result'], True)
 
+    def test_x_is_1(self):
+        res = app.next5(1)
+        self.assertEqual(res['result'], 6)
+    
+    def test_x_is_neg10(self):
+        res = app.next5(-10)
+        self.assertEqual(res['result'], -5)
 
+    def test_x_is_1dot5(self):
+        res = app.next5(1.5)
+        self.assertEqual(res['result'], 6.5)
 
 if __name__ == "__main__":
     unittest.main()

@@ -64,6 +64,14 @@ def calculate(num1, num2):
 
     return jsonify(results)
 
+@app.route('/next5/<x>', methods=['GET'])
+def next5(x):
+    try:
+        x = float(x)
+        results = { 'result' : x + 5 }
+    except:
+        results = { 'error_msg' : 'inputs must be numbers' }
+    return results
 
 if __name__ == '__main__':
     app.run()
